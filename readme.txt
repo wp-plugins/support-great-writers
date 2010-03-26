@@ -1,15 +1,16 @@
 === Support Great Writers ===
 Contributors: Richard Luck
-Donate link: http://pifmagazine.com/donate
-Tags: Amazon, Affilate, Product, Post, Page, Quick Post, Amazon Associate, Monetize, ASIN, Amazon.com, Shortcode
+Donate link: https://www.literary-arts.org/contribute/
+Tags: affiliate sales, Amazon, ASIN, Amazon Associate, monetize, Loudlever
 Requires at least: 2.5
 Tested up to: 2.8.4
-Stable tag: 1.0
+Stable tag: 1.0.1
 
-Quickly add two products in a side-bar widget by using just adding the appropriate Amazon ASIN (ISBN-10) in the widget configuration screen. 
+Quickly add two Amazon products in a side-bar widget, by simply inputting the appropriate Amazon ASIN (ISBN-10) in the widget configuration screen. 
 
 == Description ==
-The Support Great Writers Widget is a very simple way to add products for sale in a box on the side-bar of your blog.  The widget can be instantiated multiple times, with different titles on each instance, enabling you to quickly add several products for sale on your site.
+
+The Support Great Writers Widget is a very simple way to display two products for sale in a side-bar box on your blog, magazine, or other Wordpress-powered website.  The widget can be instantiated multiple times, with different titles on each instance, enabling you to quickly add several products for sale on your site.
 
 
 == Installation ==
@@ -35,5 +36,10 @@ Yes.  Absolutely.  Each instance can be configured separately.  Give them separa
 2. Widget displayed in the Side-Bar (your styling may differ)
 
 == Changelog ==
+=1.0.1 =
+* Updated screenshots to highlight the fact that users should change their Amazon Associate ID.
+* Plugin is now owned and maintained by [Loudlever, Inc.](http://www.loudlever.com)
+* Update Release (03/26/2010)
+
 = 1.0 =
 * Plugin Release (10/23/2009)
