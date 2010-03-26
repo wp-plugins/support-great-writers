@@ -36,7 +36,7 @@ Yes.  Absolutely.  Each instance can be configured separately.  Give them separa
 2. Widget displayed in the Side-Bar (your styling may differ)
 
 == Changelog ==
-=1.0.1 =
+= 1.0.1 =
 * Updated screenshots to highlight the fact that users should change their Amazon Associate ID.
 * Plugin is now owned and maintained by [Loudlever, Inc.](http://www.loudlever.com)
 * Update Release (03/26/2010)
