@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Support Great Writers
-Plugin URI: http://dimax.com
+Plugin URI: http://www.loudlever.com/callout/greatwriters
 Description: Side-Bar Widget to support Great Writers
 Author: Richard Luck
-Version: 1.0
-Author URI: http://dimax.com
+Version: 1.0.1
+Author URI: http://www.loudlever.com
 */
 
 class SupportGreatWriters extends WP_Widget {
