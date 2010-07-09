@@ -2,96 +2,82 @@
 /*
 Plugin Name: Support Great Writers
 Plugin URI: http://www.loudlever.com/callout/greatwriters
-Description: Side-Bar Widget to support Great Writers
-Author: Richard Luck
-Version: 1.0.1
+Description: Side-Bar Widget to display Amazon product images in your Wordpress blog or magazine.  Can be configured to display the same products (static-mode) or products based upon the post itself (dynamic-mode).
+Author: Loudlever, Inc.
 Author URI: http://www.loudlever.com
+Version: 1.1.0
+
+  $Id$
+
+  Copyright 2009-2010 Loudlever, Inc. (wordpress@loudlever.com)
+
+  Permission is hereby granted, free of charge, to any person
+  obtaining a copy of this software and associated documentation
+  files (the "Software"), to deal in the Software without
+  restriction, including without limitation the rights to use,
+  copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the
+  Software is furnished to do so, subject to the following
+  conditions:
+
+  The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+  OTHER DEALINGS IN THE SOFTWARE.
+
 */
 
-class SupportGreatWriters extends WP_Widget {
+/*
+---------------------------------------------------------------------------------
+  OPTION SETTINGS
+---------------------------------------------------------------------------------
+*/  
 
-    /** constructor */
-	function SupportGreatWriters() {
-		// widget contructor
-        parent::WP_Widget(false, $name = 'SupportGreatWriters');	
-	}
+define("SGW_PLUGIN_VERSION", "1.1.0");
+define('SGW_PLUGIN_OPTTIONS', '_sgw_plugin_options');
+define('SGW_BASE_URL', get_option('siteurl').'/wp-content/plugins/support-great-writers/');
+define('SGW_DEFAULT_IMAGE', get_option('siteurl').'/wp-content/plugins/support-great-writers/images/not_found.gif');
+define('SGW_POST_META_KEY','SGW_ASIN');
+define('SGW_ADMIN_PAGE','amazon_bookstore_options');
+define('SGW_ADMIN_PAGE_NONCE','sgw-save-options');
+define('SGW_PLUGIN_ERROR_CONTACT','Please contact <a href="mailto:wordpress@loudlever.com?subject=plugin%20error">wordpress@loudlever.com</a> if you have any questions');
+// define('SGW_FEEDBACK_EMAIL_VALUE','wordpress@loudlever.com?subject=SGW%20Wordpress%20Plugin');
+// define('SGW_SVC_URL_STYLE_GUIDE','http://www.loudlever.com/docs/plugins/wordpress/style_guide');     # designates the URL of the style guide
 
-    /** @see WP_Widget::widget */
-	function widget($args, $instance) {
-		// outputs the content of the widget
-        extract($args);
-        $title = apply_filters('widget_title', $instance['title']);
-        $affiliate = apply_filters('widget_affiliate', $instance['affiliate']);
-        $asin1 = apply_filters('widget_asin1', $instance['asin1']);
-        $asin2 = apply_filters('widget_asin2', $instance['asin2']);
+require_once('include/classes/SGW_Widget.class.php');
+require_once('include/classes/SGW_Admin.class.php');
 
-// start the output
+function RegisterAdminPage() {
+  // ensure our js and style sheet only get loaded on our admin page
+  $page = add_options_page('Amazon Book Store', 'Amazon Book Store', 'manage_options', SGW_ADMIN_PAGE, 'AdminPage');
+  add_action("admin_print_scripts-$page", 'AdminInit');
+  add_action("admin_print_styles-$page", 'AdminHeader' );
+}
+
+function AdminHeader() {
 ?>
+  <link rel='stylesheet' href='<?php echo SGW_BASE_URL; ?>css/sgw_style.css' type='text/css' />
+<?php  
+}
+function AdminPage() {
+  // wp_enqueue_script( 'postbox' );
+  // wp_enqueue_script( 'jquery-ui-sortable' );
+  require_once('admin/admin.php');
+}
+function AdminInit() {
+  wp_enqueue_script('sgw', WP_PLUGIN_URL . '/support-great-writers/js/sgw.js'); 
+}
 
-<?php echo $before_widget; ?>
-<?php if ( $title ) {
-    echo $before_title . $title . $after_title; 
-} ?>
-<?php if ( $affiliate ) { ?>
-<TABLE id="support_great_writers" style="margin:0px auto;">
-    <tr>
-    <td style="width:50%;"><?php if ($asin1) { ?>
-        <a target=_blank title="Find out more about this great writer"  
-        href="http://www.amazon.com/gp/product/<?php echo $asin1; ?>?ie=UTF8&tag=<?php echo $affiliate ?>&linkCode=as2&camp=1789&creative=9325&creativeASIN=<?php echo $asin1; ?>">
-<img border="0" src="http://images.amazon.com/images/P/<?php echo $asin1; ?>.01._SCMZZZZZZZ_.jpg"></a>
-<img src="http://www.assoc-amazon.com/e/ir?t=<?php echo $affiliate ?>&l=as2&o=1&a=<?php echo $asin1; ?>" 
-width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
-<?php } ?></td>
-<td style="width:50%;"><?php if ($asin2) { ?>
-<a target=_blank title="Find out more about this great writer"  
-href="http://www.amazon.com/gp/product/<?php echo $asin2; ?>?ie=UTF8&tag=<?php echo $affiliate ?>&linkCode=as2&camp=1789&creative=9325&creativeASIN=<?php echo $asin2; ?>">
-<img border="0" src="http://images.amazon.com/images/P/<?php echo $asin2; ?>.01._SCMZZZZZZZ_.jpg"></a>
-<img src="http://www.assoc-amazon.com/e/ir?t=<?php echo $affiliate ?>&l=as2&o=1&a=<?php echo $asin2; ?>" 
-width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
-<?php } ?></td>
-</tr></table>
-<?php
-        }  // end of affiliate test
-        echo $after_widget; 
-	}
-
-    /** @see WP_Widget::update */
-	function update($new_instance, $old_instance) {
-	    return $new_instance;
-	}
-
-	// outputs the options form on admin
-    /** @see WP_Widget::form */
-	function form($instance) {
-        $title = esc_attr($instance['title']);
-        $affiliate = esc_attr($instance['affiliate']);
-        $asin1 = esc_attr($instance['asin1']);
-        $asin2 = esc_attr($instance['asin2']);
-?>
-        <p>
-          <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?>
-          <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label>
-        </p>
-        <p>
-          <label for="<?php echo $this->get_field_id('affiliate'); ?>"><?php _e('Affiliate ID:'); ?>
-          <input class="widefat" id="<?php echo $this->get_field_id('affiliate'); ?>" name="<?php echo $this->get_field_name('affiliate'); ?>" type="text" value="<?php echo $affiliate; ?>" /></label>
-        </p>
-        <p>
-          <label for="<?php echo $this->get_field_id('asin1'); ?>"><?php _e('ASIN 1:'); ?>
-          <input class="widefat" id="<?php echo $this->get_field_id('asin1'); ?>" name="<?php echo $this->get_field_name('asin1'); ?>" type="text" value="<?php echo $asin1; ?>" /></label>
-        </p>
-        <p>
-          <label for="<?php echo $this->get_field_id('asin2'); ?>"><?php _e('ASIN 2:'); ?>
-          <input class="widefat" id="<?php echo $this->get_field_id('asin2'); ?>" name="<?php echo $this->get_field_name('asin2'); ?>" type="text" value="<?php echo $asin2; ?>" /></label>
-        </p>
-          
-<?php           
-          
-	}
-} // end class
-
-//  register_widget('SupportGreatWriters');
-// register FooWidget widget
-add_action('widgets_init', create_function('', 'return register_widget("SupportGreatWriters");'));
+if (class_exists("SupportGreatWriters")) {
+  add_action('widgets_init', create_function('', 'return register_widget("SupportGreatWriters");'));
+  add_action('admin_menu', 'RegisterAdminPage'); //admin page
+}
 
 ?>
