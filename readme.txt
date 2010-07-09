@@ -22,7 +22,7 @@ We are Loudlever.  Creativity.  Accelerated.
 
 == Installation ==
 
-** Install the Widget **
+**Install the Widget**
 
 Install the plugin, then activate it.  Once activated, configure the Widget:
 
@@ -31,7 +31,7 @@ Install the plugin, then activate it.  Once activated, configure the Widget:
 * Input your Amazon "Affiliate ID" and the Country representing the affiliate program you belong to.  (Default is 'United States')
 * Select how many product images you want displayed in the widget, 1 or 2.
 
-** Configure the ASIN pool **
+**Configure the ASIN pool**
 
 Now navigate to 'Settings' -> 'Amazon Book Store' and add the ASINs for the products you want to be displayed in the widget.  There are two categorizations of settings:
 
