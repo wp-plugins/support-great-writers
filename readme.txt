@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: affiliate sales, Amazon, ASIN, Amazon Associate, monetize, Loudlever
 Requires at least: 2.8
 Tested up to: 2.9.2
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 
 Randomly display one or more Amazon products in the sidebar; products are selected from POST-specific pools, or from a 'default' pool that you define.
 
@@ -52,8 +52,12 @@ Yes.  Absolutely.  Each instance can be configured separately.  Give them separa
 1. Widget displayed in the Widget manager.
 2. Widget displayed in the Side-Bar (your styling may differ)
 3. Widget process flow, illustrating how the products are selected for display
+4. ASIN pool configuration for POSTs and for Default pool
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+* Fixed problem with wrapping of form labels on the Settings page.
 
 = 1.1.0 =
 * IMPORTANT: If you're upgrading from a previous version of the widget, please take note that the name of the widget has been changed from 'SupportGreatAuthors' to 'Amazon Book Store'.
@@ -61,6 +65,12 @@ Yes.  Absolutely.  Each instance can be configured separately.  Give them separa
 * This version delivers enhanced functionality and the ability to create a 'pool' of products which the widget will randomly select from.  Because of this functionality, when upgrading from a previous installed version, the plugin will do it's best to migrate your previous settings to the new configuration.  If you had multiple instances of the plugin installed in your sidebar, this migration may not work as smoothly as we'd hope.  Please check your configurations after installing.
 
 == Changelog ==
+
+= 1.1.1 =
+* Fixed problem with wrapping of form labels on the Settings page.  
+* Extra long POST titles are now truncated to 40 characters for display purposes.
+* Removed the POST id from the display title. 
+* Added screenshot showing Settings configuration screen.
 
 = 1.1.0 =
 * Changed name of sidebar widget to 'Amazon Book Store'

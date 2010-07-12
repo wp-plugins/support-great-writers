@@ -5,7 +5,7 @@ Plugin URI: http://www.loudlever.com/callout/greatwriters
 Description: Side-Bar Widget to display Amazon product images in your Wordpress blog or magazine.  Can be configured to display the same products (static-mode) or products based upon the post itself (dynamic-mode).
 Author: Loudlever, Inc.
 Author URI: http://www.loudlever.com
-Version: 1.1.0
+Version: 1.1.1
 
   $Id$
 

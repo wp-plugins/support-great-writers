@@ -22,13 +22,13 @@ function AddDynamicChild(val) {
   cnt++;  // this will increment each time this function is called, allowing us to create as many as we want
   if (val > 0) {
     var text = $('sgw_add_new').getSelectedOptionHTML();
-    if (text.length > 30) {
-      text = text.substring(0,30) + ' ...';
+    if (text.length > 40) {
+      text = text.substring(0,40) + ' ...';
     }
     if (!existing[val]) {
       existing[val] = true;
       // append the content to the div
-      $('newly_added_post_asins').insert('<br/><label class="sgw_label" for="sgw_new['+val+']">'+ text +'</label><input type="text" name="sgw_opt[new]['+val+'][asin]" id="sgw_new_'+val+'" class="sgw_input" /><input type="hidden" name="sgw_opt[new]['+val+'][title]" value="'+text+'"/>');
+      $('newly_added_post_asins').insert('<br/><label class="sgw_label add_new" for="sgw_new['+val+']">'+ text +'</label><input type="text" name="sgw_opt[new]['+val+'][asin]" id="sgw_new_'+val+'" class="sgw_input" /><input type="hidden" name="sgw_opt[new]['+val+'][title]" value="'+text+'"/>');
     } else {
       alert('"'+text+'" is already listed below.');
       var foo = "sgw_new_"+val;

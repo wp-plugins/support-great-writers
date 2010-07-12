@@ -140,6 +140,13 @@ class SGW_Admin {
     return false;
   }
 
+  public function truncate_string($str) {
+    if (strlen($str)>40) {
+      $str = substr($str,0,40) . '...';
+    } 
+    return $str;
+  }
+
   /**
   * Update all of the page options sent by the form post
   */

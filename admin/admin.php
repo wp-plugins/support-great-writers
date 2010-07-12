@@ -59,8 +59,8 @@ if (is_user_logged_in() && is_admin() ){
   if ($posts) {
     foreach ($posts as $id=>$hash) {
       $existing[] = $hash['ID'];
-      printf('<br/><label class="sgw_label" for="sgw_posts_%s">%s [# %s]</label><input type="text" name="sgw_opt[posts][%s]" id="sgw_posts_%s" class="sgw_input"  value="%s"/>',
-        $hash['ID'],$hash['post_title'],$hash['ID'],$hash['ID'],$hash['ID'],$hash['meta_value']);
+      printf('<br/><label class="sgw_label" for="sgw_posts_%s">%s</label><input type="text" name="sgw_opt[posts][%s]" id="sgw_posts_%s" class="sgw_input"  value="%s"/>',
+        $hash['ID'],$sgw_admin->truncate_string($hash['post_title']),$hash['ID'],$hash['ID'],$hash['meta_value']);
     }
   }
   // conditional test - if we had errors - reprint out the 'new' vals
@@ -68,7 +68,7 @@ if (is_user_logged_in() && is_admin() ){
     foreach ($_POST['sgw_opt']['new'] as $id=>$hash) {
       if (!in_array($id,$existing)) { // this prevents successful saves from being re-listed
         $existing[] = $id;
-        printf('<br/><label class="sgw_label" for="sgw_new[%s]">%s</label><input type="text" name="sgw_opt[new][%s][asin]" id="sgw_new_%s" class="sgw_input" value="%s"/><input type="hidden" name="sgw_opt[new][%s][title]" value="%s"/>',$id,$hash['title'],$id,$id,$hash['asin'],$id,$hash['title']);
+        printf('<br><label class="sgw_label" for="sgw_new[%s]">%s</label><input type="text" name="sgw_opt[new][%s][asin]" id="sgw_new_%s" class="sgw_input" value="%s"/><input type="hidden" name="sgw_opt[new][%s][title]" value="%s"/>',$id,$sgw_admin->truncate_string($hash['post_title']),$id,$id,$hash['asin'],$id,$hash['title']);
       }
     }
   }
@@ -84,7 +84,7 @@ if (is_user_logged_in() && is_admin() ){
   $post_list = get_posts(array('numberposts' => -1,'orderby' => 'title', 'order' => 'ASC' ));
  foreach($post_list as $post) {
    if (!in_array($post->ID,$existing)) {
-     printf('<option value="%s">%s [# %s]</option>',$post->ID,$post->post_title, $post->ID);
+     printf('<option value="%s">%s</option>',$post->ID,$post->post_title);
     }
   }
  ?>
