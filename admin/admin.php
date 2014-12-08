@@ -75,10 +75,10 @@ if (is_user_logged_in() && is_admin() ){
   
 ?>  
   <br/>
-  <div id="newly_added_post_asins"> </div>
+  <div id="newly_added_post_asins"></div>
   
   <label class='sgw_label add_new' for='sgw_add_new'>Add New Post ASINs:</label>
-  <select name="sgw_opt[list_all]" id="sgw_add_new" class='sgw_input' onchange='AddDynamicChild(this.value);'/>
+  <select name="sgw_opt[list_all]" id="sgw_add_new" class='sgw_input' onchange='sgw.append_asin_block(this.value);'/>
   <option value='0' selected='selected'>-- Select --</option>
 <?php
   $post_list = get_posts(array('numberposts' => -1,'orderby' => 'title', 'order' => 'ASC' ));
