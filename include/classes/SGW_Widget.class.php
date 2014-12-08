@@ -10,7 +10,7 @@ class SupportGreatWriters extends WP_Widget {
     /** constructor */
 	function SupportGreatWriters() {
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'sgw', 'description' => 'Display Amazon Associate books and other products in sidebar.' );
+		$widget_ops = array( 'classname' => 'sgw', 'description' => 'Display Amazon books and other products in sidebar.' );
 		/* Widget control settings. */
 		$control_ops = array( 'id_base' => 'sgw' );
 		/* Create the widget. */

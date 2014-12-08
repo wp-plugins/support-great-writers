@@ -1,15 +1,15 @@
 <?php
 /*
 Plugin Name: Support Great Writers
-Plugin URI: http://www.loudlever.com/callout/greatwriters
-Description: Side-Bar Widget to display Amazon product images in your Wordpress blog or magazine.  Can be configured to display the same products (static-mode) or products based upon the post itself (dynamic-mode).
+Plugin URI: http://www.loudlever.com/wordpress-plugins/amazon-book-store/
+Description: Side-Bar Widget to display Amazon product images in your WordPress blog or magazine.  Can be configured to display the same products (static-mode) or products based upon the post itself (dynamic-mode).
 Author: Loudlever, Inc.
 Author URI: http://www.loudlever.com
-Version: 1.1.1
+Version: 1.1.2
 
   $Id$
 
-  Copyright 2009-2010 Loudlever, Inc. (wordpress@loudlever.com)
+  Copyright 2009-2014 Loudlever, Inc. (wordpress@loudlever.com)
 
   Permission is hereby granted, free of charge, to any person
   obtaining a copy of this software and associated documentation
@@ -40,7 +40,7 @@ Version: 1.1.1
 ---------------------------------------------------------------------------------
 */  
 
-define("SGW_PLUGIN_VERSION", "1.1.0");
+define("SGW_PLUGIN_VERSION", "1.1.2");
 define('SGW_PLUGIN_OPTTIONS', '_sgw_plugin_options');
 define('SGW_BASE_URL', get_option('siteurl').'/wp-content/plugins/support-great-writers/');
 define('SGW_DEFAULT_IMAGE', get_option('siteurl').'/wp-content/plugins/support-great-writers/images/not_found.gif');
