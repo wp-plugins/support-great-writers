@@ -106,7 +106,8 @@ class SGW_Admin {
 
   private function normalize_asin_list($list) {
     if (!$list) {
-      $this->error = 'You must input at least one ASIN'; return false;
+      $list = SGW_BESTSELLERS;
+      // $this->error = 'You must input at least one ASIN'; return false;
     }
     $new = array();
     $array = split(',',$list);
@@ -137,7 +138,7 @@ class SGW_Admin {
     if ($posts = $wpdb->get_results($sql, ARRAY_A)) {
       return $posts;
     }
-    return false;
+    return [];
   }
 
   public function truncate_string($str) {
@@ -152,16 +153,18 @@ class SGW_Admin {
   */
   public function update_options($form) {
     // printf("<pre>In update_options()\nREQ: %s\naction = %s</pre>",print_r($_REQUEST,1),$_REQUEST['action']); 
-     $message = null;
+     $message = 'Your updates have been saved.';
     if(isset($_POST['save_settings'])) {
       check_admin_referer(SGW_ADMIN_PAGE_NONCE);
       if (isset($_POST['sgw_opt'])) {
-        // need to validate username and password against HeyPublisher and if valid save isvalidated boolean
         $opts = $_POST['sgw_opt'];
         // update the default settings
         if ($test = $this->normalize_asin_list($opts['default'])) {
           $this->options['default'] = $test;
           update_option(SGW_PLUGIN_OPTTIONS,$this->options);
+					if ($test == SGW_BESTSELLERS) {
+						$message = 'Default ASINs are using default settings.';
+					}
         } else {
           $this->print_process_errors();
           return false;
@@ -171,6 +174,7 @@ class SGW_Admin {
           foreach ($opts['new'] as $id=>$hash) {
             if ($test = $this->normalize_asin_list($hash['asin'])) {
               add_post_meta($id,SGW_POST_META_KEY,$test,true) or update_post_meta($id,SGW_POST_META_KEY,$test);
+							$message = "Your updates have been saved.";
             } else {
               $this->print_process_errors();
               return false;
@@ -185,6 +189,7 @@ class SGW_Admin {
               delete_post_meta($id,SGW_POST_META_KEY);
             } elseif ($test = $this->normalize_asin_list($asin_list,true)) {
               update_post_meta($id,SGW_POST_META_KEY,$test);
+							$message = "Your updates have been saved.";
             } else {
               $this->print_process_errors();
               return false;
@@ -193,7 +198,7 @@ class SGW_Admin {
         }          
         
       }
-      return 'Options have been updated';
+      return $message;
     }
   }
 }

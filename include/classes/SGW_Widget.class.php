@@ -30,9 +30,9 @@ class SupportGreatWriters extends WP_Widget {
     
     if (!$asin) {
       // display default image
-      $link = sprintf('<img src="%s" title="Production ASIN not defined">',SGW_DEFAULT_IMAGE);
+      $link = sprintf('<img src="%s" title="Product ASIN not defined">',SGW_DEFAULT_IMAGE);
     } else {
-      $format = '<a title="Click for more Information" target=_blank href="http://www.%s/gp/product/%s?ie=UTF8&tag=%s&linkCode=as2&camp=1789&creative=9325&creativeASIN=%s"><img border="0" src="http://ecx.images-amazon.com/images/P/%s.01._SCMZZZZZZZ_.jpg"></a><img src="http://www.assoc-%s/e/ir?t=%s&l=as2&o=1&a=%s" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />';
+      $format = '<a title="Click for more Information" target=_blank href="http://www.%s/gp/product/%s?ie=UTF8&tag=%s&linkCode=as2&camp=1789&creative=9325&creativeASIN=%s"><img class="sgw_product_img" src="http://ecx.images-amazon.com/images/P/%s.01._SCMZZZZZZZ_.jpg"></a><img src="http://www.assoc-%s/e/ir?t=%s&l=as2&o=1&a=%s" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />';
       $link = sprintf($format,$url_map[$country],$asin,$assoc,$asin,$asin,$url_map[$country],$assoc,$asin);
     }
     return $link;
@@ -69,8 +69,8 @@ class SupportGreatWriters extends WP_Widget {
       $country = apply_filters('widget_country', $instance['country']);
       $display_count = apply_filters('widget_display_count', $instance['display_count']);
       //  ensure some defaults get set immediately
-      if (!$affiliate) { $affiliate = 'loud-writers-20'; $country = 'us'; }
-      if (!$display_count) { $display_count = 2; }
+      if (!$affiliate) { $affiliate = 'sgw-1-2-2-20'; $country = 'us'; }
+      if (!$display_count) { $display_count = 1; }
 
 // start the output
     echo $before_widget; 

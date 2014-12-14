@@ -30,6 +30,10 @@ if (is_user_logged_in() && is_admin() ){
       }
     }
   }
+	if (!$opts['default']) {
+		$opts['default'] = SGW_BESTSELLERS;
+	}
+
 ?>
     <div class="wrap">
       <h2>Configure Amazon Book Store Widget</h2>
