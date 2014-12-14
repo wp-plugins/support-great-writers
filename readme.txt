@@ -3,22 +3,22 @@ Contributors: Loudlever, Inc.
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y8SL68GN5J2PL
 Tags: affiliate sales, Amazon, ASIN, Amazon Associate, monetize, Loudlever
 Requires at least: 2.8
-Tested up to: 2.9.2
-Stable tag: 1.1.1
+Tested up to: 4.0.1
+Stable tag: 1.1.3
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Randomly display one or more Amazon products in the sidebar; products are selected from POST-specific pools, or from a 'default' pool that you define.
+Sell Amazon products in the sidebar, based upon the POST or a default pool of products that you define.
 
 == Description ==
 
-The Amazon Book Store (formerly 'Support Great Writers') Widget provides a very simple way to display up to two products in a sidebar widget on your blog, magazine, or other Wordpress-powered website.  The widget can be instantiated multiple times, with different products being displayed in each instance, enabling you to quickly add several products for sale to your site.
+The Amazon Book Store (formerly 'Support Great Writers') Widget provides a very simple way to sell Amazon products via a sidebar widget on your blog, magazine, or other WordPress-powered website.  The widget can be instantiated multiple times, with different products being displayed in each instance.  
 
-As of version 1.1.0, the you can define a 'pool' of products from which the widget will randomly pick up to two (per widget) for display.  You can also define a unique pool of products for use with an individual POST, allowing you to quickly build up an Amazon Book Store of products that are related to your POSTs.  
+You can sell specific products on specific pages of your website, or define a 'pool' of products from which the widget will randomly chose from.  This allows you to quickly build up an Amazon store of products that are related to your individual POSTs.  
 
 == About Us ==
 
-Developed by the fine folks at [Loudlever, Inc.](http://www.loudlever.com), this plugin allows blog owners and Wordpress publishers to monetize their content through Amazon affiliate sales.  We believe that it should be as easy as possible for site owners to use our tools, so if you experience any difficulties getting things set up please email us at: wordpress@loudlever.com. 
-
-We are Loudlever.  Creativity.  Accelerated.
+Developed by the fine folks at [Loudlever, Inc.](http://www.loudlever.com), this plugin allows blog owners and WordPress publishers to monetize their content through [Amazon affiliate sales](http://associates.amazon.com).  We believe that it should be as easy for site owners to use our tools, so if you experience any difficulties getting things set up please email us at: wordpress@loudlever.com. 
 
 == Installation ==
 
@@ -33,7 +33,7 @@ Install the plugin, then activate it.  Once activated, configure the Widget:
 
 **Configure the ASIN pool**
 
-Now navigate to 'Settings' -> 'Amazon Book Store' and add the ASINs for the products you want to be displayed in the widget.  There are two categorizations of settings:
+Navigate to 'Settings' -> 'Amazon Book Store' and add the ASINs for the products you want to be displayed in the widget.  See [What are ASINs](http://www.amazon.com/gp/seller/asin-upc-isbn-info.html) for more information.  There are two categorizations of settings:
 
 * POST Specific:  If set, these products will be displayed when users are reading the designated POST.
 * Default: If the request is to a POST that does not have specific ASINs defined, then the widget will display products from this group.
@@ -45,7 +45,7 @@ Yes -- it's that easy.
 == Frequently Asked Questions ==
 
 = Can I Use This Widget More Than Once In My Sidebar? =
-Yes.  Absolutely.  Each instance can be configured separately.  Give them separate titles - even separate Affiliate IDs.  You **must** use the same Affiliate 'country' for each widget instance, however.
+Yes.  Absolutely.  Each instance can be configured separately.  Give the widgets separate titles - even separate Affiliate IDs.  You **must** use the same Affiliate 'country' for each widget instance, however.
 
 == Screenshots ==
 
@@ -56,6 +56,9 @@ Yes.  Absolutely.  Each instance can be configured separately.  Give them separa
 
 == Upgrade Notice ==
 
+= 1.1.2 =
+* Upgraded to jQuery and made WordPress 4.x compatible.
+
 = 1.1.1 =
 * Fixed problem with wrapping of form labels on the Settings page.
 
@@ -65,6 +68,16 @@ Yes.  Absolutely.  Each instance can be configured separately.  Give them separa
 * This version delivers enhanced functionality and the ability to create a 'pool' of products which the widget will randomly select from.  Because of this functionality, when upgrading from a previous installed version, the plugin will do it's best to migrate your previous settings to the new configuration.  If you had multiple instances of the plugin installed in your sidebar, this migration may not work as smoothly as we'd hope.  Please check your configurations after installing.
 
 == Changelog ==
+
+= 1.1.3 =
+* Fixed a layout problem where books and media product images had different widths.
+* Updated description of plugin.
+
+= 1.1.2 =
+* Updated JavaScript in admin tool to make use of jQuery.
+* Fixed issue with ASIN assignment for existing POSTS in Admin screen.
+* Plugin is now WP 4.x compatible.
+* Release date (12/8/2014)
 
 = 1.1.1 =
 * Fixed problem with wrapping of form labels on the Settings page.  
