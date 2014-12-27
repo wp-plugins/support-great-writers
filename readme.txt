@@ -1,10 +1,10 @@
 === Amazon Book Store ===
-Contributors: Loudlever, Inc.
+Contributors: Loudlever
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y8SL68GN5J2PL
 Tags: affiliate sales, Amazon, ASIN, Amazon Associate, monetize, Loudlever
 Requires at least: 2.8
 Tested up to: 4.0.1
-Stable tag: 1.1.3
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,9 @@ Yes.  Absolutely.  Each instance can be configured separately.  Give the widgets
 * This version delivers enhanced functionality and the ability to create a 'pool' of products which the widget will randomly select from.  Because of this functionality, when upgrading from a previous installed version, the plugin will do it's best to migrate your previous settings to the new configuration.  If you had multiple instances of the plugin installed in your sidebar, this migration may not work as smoothly as we'd hope.  Please check your configurations after installing.
 
 == Changelog ==
+
+= 2.0.0 =
+* Introduced display and click analytics.
 
 = 1.1.3 =
 * Fixed a layout problem where books and media product images had different widths.

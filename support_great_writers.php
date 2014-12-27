@@ -5,7 +5,7 @@ Plugin URI: http://www.loudlever.com/wordpress-plugins/amazon-book-store/
 Description: Sell Amazon products in the sidebar, based upon the POST or a default pool of products that you define.  Configure in Settings > Amazon Book Store.
 Author: Loudlever
 Author URI: http://www.loudlever.com
-Version: 1.1.3
+Version: 2.0.0
 
   $Id$
 
