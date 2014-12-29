@@ -15,17 +15,55 @@ class SGW_Admin {
   var $max_asins_per = 4;
   var $post_meta_key = SGW_POST_META_KEY;
   var $error = false;
+  var $donate_link = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y8SL68GN5J2PL';
 
   public function __construct() {
     $this->options = get_option(SGW_PLUGIN_OPTTIONS);
   }   
 
   public function __destruct() {
-    if ($this->options) {
-      update_option(SGW_PLUGIN_OPTTIONS,$this->options);
-    }
+    // nothing to see yet
+  }
+  public function activate_plugin() {
+    // nothing to see yet
+  }
+  public function deactivate_plugin() {
+    $this->options = false;
+		delete_option(SGW_PLUGIN_OPTTIONS);  // remove the default options
+	  return;
+  }
+  
+  // Called by plugin filter to create the link to settings
+  public function plugin_link($links) {
+    $settings = '<a href="options-general.php?page='.SGW_ADMIN_PAGE.'">'.__("Settings", "sgw").'</a>';
+    array_unshift($links, $settings);  // push to left side
+    return $links;
+  }
+  
+  // Filter for creating the link to settings
+  public function plugin_filter() {
+    return sprintf('plugin_action_links_%s',SGW_PLUGIN_FILE); 
   }
 
+	public function html_box_header($id, $title) {
+?>
+			<div id="<?php echo $id; ?>" class="postbox">
+				<h3 class="hndle"><span><?php echo $title ?></span></h3>
+				<div class="inside">
+<?php
+	}
+
+	public function html_box_footer() {
+?>
+				</div>
+			</div>
+<?php
+  }
+
+  public function sidebar_link($key,$link,$text) {
+    printf('<a class="sgw_button sgw_%s" href="%s" target="_blank">%s</a>',$key,$link,__($text,'sgw'));
+  }
+  
   public function check_plugin_version() {
     $opts = get_option(SGW_PLUGIN_OPTTIONS);
     if (!$opts || !$opts[plugin] || $opts[plugin][version_last] == false) {

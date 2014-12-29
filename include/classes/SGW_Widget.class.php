@@ -1,20 +1,16 @@
 <?php
 /*
-  $Id$
-  
   Widget Class
-
+  http://codex.wordpress.org/Widgets_API
 */
 class SupportGreatWriters extends WP_Widget {
 
     /** constructor */
-	function SupportGreatWriters() {
-		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'sgw', 'description' => 'Display Amazon books and other products in sidebar.' );
-		/* Widget control settings. */
+	function __construct() {
 		$control_ops = array( 'id_base' => 'sgw' );
-		/* Create the widget. */
-		$this->WP_Widget( 'sgw', 'Amazon Book Store', $widget_ops, $control_ops );
+		$widget_ops = array('description' => __('Easily sell Amazon books or other products in sidebar.','sgw'));
+	  parent::__construct('sgw', __('Amazon Book Store','sgw'), $widget_ops,$control_ops );
+    // $this->WP_Widget( 'sgw', 'Amazon Book Store', $widget_ops, $control_ops );
 	}
 
   /**

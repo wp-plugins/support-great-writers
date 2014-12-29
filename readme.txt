@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: affiliate sales, Amazon, ASIN, Amazon Associate, monetize, Loudlever
 Requires at least: 2.8
 Tested up to: 4.0.1
-Stable tag: 1.1.3
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ You can sell specific products on specific pages of your website, or define a 'p
 
 == About Us ==
 
-Developed by the fine folks at [Loudlever, Inc.](http://www.loudlever.com), this plugin allows blog owners and WordPress publishers to monetize their content through [Amazon affiliate sales](http://associates.amazon.com).  We believe that it should be as easy for site owners to use our tools, so if you experience any difficulties getting things set up please email us at: wordpress@loudlever.com. 
+Developed by the fine folks at [Loudlever](http://www.loudlever.com), this plugin allows blog owners and WordPress publishers to monetize their content through [Amazon affiliate sales](http://associates.amazon.com).  It should be easy for you to get started, but if you experience any difficulties getting things set up please email us at: wordpress@loudlever.com. 
 
 == Installation ==
 
@@ -56,6 +56,10 @@ Yes.  Absolutely.  Each instance can be configured separately.  Give the widgets
 
 == Upgrade Notice ==
 
+= 2.0.0 =
+* Improved administration screen layout.
+* WordPress 4.1 compliant.
+
 = 1.1.2 =
 * Upgraded to jQuery and made WordPress 4.x compatible.
 
@@ -68,6 +72,9 @@ Yes.  Absolutely.  Each instance can be configured separately.  Give the widgets
 * This version delivers enhanced functionality and the ability to create a 'pool' of products which the widget will randomly select from.  Because of this functionality, when upgrading from a previous installed version, the plugin will do it's best to migrate your previous settings to the new configuration.  If you had multiple instances of the plugin installed in your sidebar, this migration may not work as smoothly as we'd hope.  Please check your configurations after installing.
 
 == Changelog ==
+
+= 2.0.0 =
+* Redesigned plugin and improved admin layout.
 
 = 1.1.3 =
 * Fixed a layout problem where books and media product images had different widths.
