@@ -15,17 +15,55 @@ class SGW_Admin {
   var $max_asins_per = 4;
   var $post_meta_key = SGW_POST_META_KEY;
   var $error = false;
+  var $donate_link = 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y8SL68GN5J2PL';
 
   public function __construct() {
     $this->options = get_option(SGW_PLUGIN_OPTTIONS);
   }   
 
   public function __destruct() {
-    if ($this->options) {
-      update_option(SGW_PLUGIN_OPTTIONS,$this->options);
-    }
+    // nothing to see yet
+  }
+  public function activate_plugin() {
+    // nothing to see yet
+  }
+  public function deactivate_plugin() {
+    $this->options = false;
+		delete_option(SGW_PLUGIN_OPTTIONS);  // remove the default options
+	  return;
+  }
+  
+  // Called by plugin filter to create the link to settings
+  public function plugin_link($links) {
+    $settings = '<a href="options-general.php?page='.SGW_ADMIN_PAGE.'">'.__("Settings", "sgw").'</a>';
+    array_unshift($links, $settings);  // push to left side
+    return $links;
+  }
+  
+  // Filter for creating the link to settings
+  public function plugin_filter() {
+    return sprintf('plugin_action_links_%s',SGW_PLUGIN_FILE); 
   }
 
+	public function html_box_header($id, $title) {
+?>
+			<div id="<?php echo $id; ?>" class="postbox">
+				<h3 class="hndle"><span><?php echo $title ?></span></h3>
+				<div class="inside">
+<?php
+	}
+
+	public function html_box_footer() {
+?>
+				</div>
+			</div>
+<?php
+  }
+
+  public function sidebar_link($key,$link,$text) {
+    printf('<a class="sgw_button sgw_%s" href="%s" target="_blank">%s</a>',$key,$link,__($text,'sgw'));
+  }
+  
   public function check_plugin_version() {
     $opts = get_option(SGW_PLUGIN_OPTTIONS);
     if (!$opts || !$opts[plugin] || $opts[plugin][version_last] == false) {
@@ -106,7 +144,8 @@ class SGW_Admin {
 
   private function normalize_asin_list($list) {
     if (!$list) {
-      $this->error = 'You must input at least one ASIN'; return false;
+      $list = SGW_BESTSELLERS;
+      // $this->error = 'You must input at least one ASIN'; return false;
     }
     $new = array();
     $array = split(',',$list);
@@ -137,7 +176,7 @@ class SGW_Admin {
     if ($posts = $wpdb->get_results($sql, ARRAY_A)) {
       return $posts;
     }
-    return false;
+    return [];
   }
 
   public function truncate_string($str) {
@@ -152,16 +191,18 @@ class SGW_Admin {
   */
   public function update_options($form) {
     // printf("<pre>In update_options()\nREQ: %s\naction = %s</pre>",print_r($_REQUEST,1),$_REQUEST['action']); 
-     $message = null;
+     $message = 'Your updates have been saved.';
     if(isset($_POST['save_settings'])) {
       check_admin_referer(SGW_ADMIN_PAGE_NONCE);
       if (isset($_POST['sgw_opt'])) {
-        // need to validate username and password against HeyPublisher and if valid save isvalidated boolean
         $opts = $_POST['sgw_opt'];
         // update the default settings
         if ($test = $this->normalize_asin_list($opts['default'])) {
           $this->options['default'] = $test;
           update_option(SGW_PLUGIN_OPTTIONS,$this->options);
+					if ($test == SGW_BESTSELLERS) {
+						$message = 'Default ASINs are using default settings.';
+					}
         } else {
           $this->print_process_errors();
           return false;
@@ -171,6 +212,7 @@ class SGW_Admin {
           foreach ($opts['new'] as $id=>$hash) {
             if ($test = $this->normalize_asin_list($hash['asin'])) {
               add_post_meta($id,SGW_POST_META_KEY,$test,true) or update_post_meta($id,SGW_POST_META_KEY,$test);
+							$message = "Your updates have been saved.";
             } else {
               $this->print_process_errors();
               return false;
@@ -185,6 +227,7 @@ class SGW_Admin {
               delete_post_meta($id,SGW_POST_META_KEY);
             } elseif ($test = $this->normalize_asin_list($asin_list,true)) {
               update_post_meta($id,SGW_POST_META_KEY,$test);
+							$message = "Your updates have been saved.";
             } else {
               $this->print_process_errors();
               return false;
@@ -193,7 +236,7 @@ class SGW_Admin {
         }          
         
       }
-      return 'Options have been updated';
+      return $message;
     }
   }
 }
