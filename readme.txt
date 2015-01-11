@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: affiliate, amazon, product, book store, affiliate sales,ASIN, Amazon Associate, monetize
 Requires at least: 2.8
 Tested up to: 4.1.0
-Stable tag: 2.0.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Yes.  Absolutely.  The widget will keep track of which products have already bee
 * This version delivers enhanced functionality and the ability to create a 'pool' of products which the widget will randomly select from.  Because of this functionality, when upgrading from a previous installed version, the plugin will do it's best to migrate your previous settings to the new configuration.  If you had multiple instances of the plugin installed in your sidebar, this migration may not work as smoothly as we'd hope.  Please check your configurations after installing.
 
 == Changelog ==
+
+= 2.1.1 =
+* Fix upgrade error.
 
 = 2.1.0 =
 * Affiliate ID and Country are now managed on the Settings page - you will need to update these values after upgrading.
