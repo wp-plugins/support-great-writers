@@ -4,18 +4,19 @@
   http://codex.wordpress.org/Widgets_API
 */
 class SupportGreatWriters extends WP_Widget {
+  var $seen = [];
+  var $options = array();
+  var $asins = [];  
 
-    /** constructor */
+
 	function __construct() {
 		$control_ops = array( 'id_base' => 'sgw' );
 		$widget_ops = array('description' => __('Easily sell Amazon books or other products in sidebar.','sgw'));
+		$this->options = get_option(SGW_PLUGIN_OPTTIONS);
 	  parent::__construct('sgw', __('Amazon Book Store','sgw'), $widget_ops,$control_ops );
-    // $this->WP_Widget( 'sgw', 'Amazon Book Store', $widget_ops, $control_ops );
 	}
 
-  /**
-  * Get the amazon link for a passed-in ASIN and Associates ID
-  */
+  // Get the amazon link for a passed-in ASIN and Associates ID
   function get_amazon_link($asin,$assoc,$country) {
     $url_map = array(
       'us' => 'amazon.com', 
@@ -34,61 +35,64 @@ class SupportGreatWriters extends WP_Widget {
     return $link;
   }
 
-  /**
-  * Split a comma-separated list of asins apart and return an array of POST or DEFAULT asins for display.
-  */
-  private function split_asin_list($list) {
+  // Split a comma-separated list of asins apart and return an array of POST or DEFAULT asins for display.
+  private function shuffle_asin_list($list) {
     $asins = array();
     if ($list) {
   	  $array = split(',',$list);
-      // if the number of vals is greater than the max number of slots to fill, get a random value
-      if (count($array) > 2) {
-        // we fetch a random asin from the array
-        $rand = array_rand($array,2);
-        $asins[0] = $array[$rand[0]];
-        $asins[1] = $array[$rand[1]];
-      } else {
-        $asins = $array;
-      }
+  	  shuffle($array);
+      return $array;
     }
 	  return $asins;
   }
-  
-
-  /** @see WP_Widget::widget */
-	function widget($args, $instance) {
-	  global $post;
-		// outputs the content of the widget
-      extract($args);
-      $title = apply_filters('widget_title', $instance['title']);
-      $affiliate = apply_filters('widget_affiliate', $instance['affiliate']);
-      $country = apply_filters('widget_country', $instance['country']);
-      $display_count = apply_filters('widget_display_count', $instance['display_count']);
-      //  ensure some defaults get set immediately
-      if (!$affiliate) { $affiliate = 'sgw-1-2-2-20'; $country = 'us'; }
-      if (!$display_count) { $display_count = 1; }
-
-// start the output
-    echo $before_widget; 
-    if ( $title ) {
-      echo $before_title . $title . $after_title; 
+  // load the ASINs into memory in way that makes it easy to pop them off later
+  public function load_asins() {
+	  global $post; // this is only available within the widget function, not within the constructor
+    $list = '';
+    if (!is_home()) { 
+      // look to see if we have a post id meta attribute
+  	  $list = get_post_meta($post->ID,SGW_POST_META_KEY,true);
+  	  $this->asins = array_merge($this->asins,$this->shuffle_asin_list($list));
     }
-    if ( $affiliate ) { 
-      $asin_list = '';
-      if (!is_home()) { 
-        // look to see if we have a post id meta attribute
-    	  $asin_list = get_post_meta($post->ID,SGW_POST_META_KEY,true);
+    // concatenate the defaults onto the end
+    $this->asins = array_merge($this->asins,$this->shuffle_asin_list($this->options['default']));
+    // need to uniquify the array to prevent duplicates
+    $this->asins = array_unique($this->asins);
+  }
+  // Get the next ASINs for display
+  public function get_next_asin_set($count) {
+    $asins = [];
+    $diff = array_diff($this->asins,$this->seen);
+    if (count($diff) >= $count) {
+      for ($i = 0; $i < $count; $i++) {
+        $next = array_shift($diff);
+        $asins[] = $next;
+        $this->seen[] = $next;
       }
-      // if we don't have asin values, need to fetch the defaults
-      if (!$asin_list) {
-        $opts = get_option(SGW_PLUGIN_OPTTIONS);
-        $asin_list = $opts['default'];
+    }
+    return $asins;
+  }
+
+  // @see WP_Widget::widget 
+	function widget($args, $instance) {
+	  $this->load_asins();
+		// outputs the content of the widget
+    extract($args);
+    // widget level opts
+    $title = apply_filters('widget_title', $instance['title']);
+    $display_count = apply_filters('widget_display_count', $instance['display_count']);
+    if (!$display_count) { $display_count = 1; }
+    // system level opts
+    $affiliate = $this->options['affiliate_id'];
+    $country = $this->options['country_id'];
+    if (!$affiliate) { $affiliate = 'sgw-1-2-2-20'; $country = 'us'; } // set a default so plugin doesn't stop working
+    $asins = $this->get_next_asin_set($display_count);
+    if ($asins) { 
+      // start the output
+      echo $before_widget; 
+      if ( $title ) {
+        echo $before_title . $title . $after_title; 
       }
-      $asins = $this->split_asin_list($asin_list);
-      if (count($asins) < $display_count) {
-        $display_count = 1;
-      }
-        
 ?>
 <div class="textwidget">
 <TABLE id="support_great_writers" style="margin:0px auto;">
@@ -105,48 +109,26 @@ class SupportGreatWriters extends WP_Widget {
 </tr></table>
 </div>
 <?php
-    }  // end of affiliate test
     echo $after_widget; 
+    } // end of test if count is greater than desired display
 	}
 
-    /** @see WP_Widget::update */
+  // @see WP_Widget::update
 	function update($new_instance, $old_instance) {
 	    return $new_instance;
 	}
 
 	// outputs the options form on admin
-    /** @see WP_Widget::form */
+  // @see WP_Widget::form 
 	function form($instance) {
     // load the vars
     $title = esc_attr($instance['title']);
-    $affiliate = esc_attr($instance['affiliate']);
-    $country = esc_attr($instance['country']);
-    if (!$country) { $country = 'us'; }
-      
     $display_count = esc_attr($instance['display_count']);
     if (!$display_count) { $display_count = 1; }
 ?>
         <p>
           <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?>
           <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></label>
-        </p>
-        <p>
-          <label for="<?php echo $this->get_field_id('affiliate'); ?>"><?php _e('Affiliate ID:'); ?>
-          <input class="widefat" id="<?php echo $this->get_field_id('affiliate'); ?>" name="<?php echo $this->get_field_name('affiliate'); ?>" type="text" value="<?php echo $affiliate; ?>" /></label>
-        </p>
-        <p>
-          <label for="<?php echo $this->get_field_id('country'); ?>"><?php _e('Affiliate Country:'); ?>
-          <select name="<?php echo $this->get_field_name('country'); ?>">
-<?php
-  $countries = array('us' => 'United States', 'uk' => 'United Kingdon', 'de' => 'Germany', 'fr' => 'France', 'ca' => 'Canada');
-  foreach ($countries as $key=>$val) {
-    $sel = '';
-    if ($country==$key) { $sel = 'selected="selected"'; }
-    printf("<option value='%s' %s>%s</option>",$key,$sel,$val);
-  }
-?>          
-          </select>
-          </label>
         </p>
         <p>
           <label for="<?php echo $this->get_field_id('display_count'); ?>"><?php _e('Display # of Products in Widget:'); ?>

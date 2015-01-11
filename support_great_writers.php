@@ -2,10 +2,10 @@
 /*
 Plugin Name: Amazon Book Store
 Plugin URI: http://www.loudlever.com/wordpress-plugins/amazon-book-store/
-Description: Sell Amazon products in the sidebar based upon the POST or a default pool of products that you define.
+Description: Sell Amazon products in sidebar widgets, unique to the individual POST or generically from a default pool of products that you define.
 Author: Loudlever
 Author URI: http://www.loudlever.com
-Version: 2.0.0
+Version: 2.1.0
 
   $Id$
 
@@ -46,7 +46,8 @@ if ( !function_exists( 'add_action' ) ) {
 ---------------------------------------------------------------------------------
 */  
 
-define('SGW_PLUGIN_VERSION', '2.0.0');
+define('SGW_DEBUG',false);
+define('SGW_PLUGIN_VERSION', '2.1.0');
 define('SGW_PLUGIN_OPTTIONS', '_sgw_plugin_options');
 define('SGW_BASE_URL', get_option('siteurl').'/wp-content/plugins/support-great-writers/');
 define('SGW_DEFAULT_IMAGE', get_option('siteurl').'/wp-content/plugins/support-great-writers/images/not_found.gif');
@@ -59,14 +60,16 @@ define('SGW_PLUGIN_FILE',plugin_basename(__FILE__));
 
 require_once(dirname(__FILE__) . '/include/classes/SGW_Widget.class.php');
 require_once(dirname(__FILE__) . '/include/classes/SGW_Admin.class.php');
-$sgw_admin = new SGW_Admin;
+$sgw = new SGW_Admin;
 
 // enable link to settings page
-add_filter($sgw_admin->plugin_filter(), array(&$sgw_admin,'plugin_link'), 10, 2 );
+add_filter($sgw->plugin_filter(), array(&$sgw,'plugin_link'), 10, 2 );
 
 function RegisterAdminPage() {
+  global $sgw;
   // ensure our js and style sheet only get loaded on our admin page
   $page = add_options_page('Amazon Book Store', 'Amazon Book Store', 'manage_options', SGW_ADMIN_PAGE, 'AdminPage');
+  $sgw->help = $page;
   add_action("admin_print_scripts-$page", 'AdminInit');
   add_action("admin_print_styles-$page", 'AdminHeader' );
 }
@@ -77,8 +80,9 @@ function AdminHeader() {
 <?php  
 }
 function AdminPage() {
-  global $sgw_admin;
-  require_once('admin/admin.php');
+  global $sgw;
+  $sgw->configuration_screen();
+  // require_once('admin/admin.php');
 }
 function AdminInit() {
   wp_enqueue_script('sgw', WP_PLUGIN_URL . '/support-great-writers/js/sgw.js'); 
@@ -91,9 +95,9 @@ if (class_exists("SupportGreatWriters")) {
   add_action('widgets_init', create_function('', 'return register_widget("SupportGreatWriters");'));
   add_action('admin_menu', 'RegisterAdminPage'); 
 	add_action('wp_enqueue_scripts','RegisterWidgetStyle');
+	add_filter('contextual_help', array(&$sgw,'configuration_screen_help'), 10, 3);
+
 }
-
-register_activation_hook( __FILE__, array(&$sgw_admin,'activate_plugin'));
-register_deactivation_hook( __FILE__, array(&$sgw_admin,'deactivate_plugin'));
-
+register_activation_hook( __FILE__, array(&$sgw,'activate_plugin'));
+register_deactivation_hook( __FILE__, array(&$sgw,'deactivate_plugin'));
 ?>
