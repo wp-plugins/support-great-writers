@@ -202,7 +202,7 @@ class SGW_Admin {
     if ($posts = $wpdb->get_results($sql, ARRAY_A)) {
       return $posts;
     }
-    return [];
+    return array();
   }
 
   public function truncate_string($str) {
