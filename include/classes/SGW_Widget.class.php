@@ -4,9 +4,9 @@
   http://codex.wordpress.org/Widgets_API
 */
 class SupportGreatWriters extends WP_Widget {
-  var $seen = [];
+  var $seen = array();
   var $options = array();
-  var $asins = [];  
+  var $asins = array();  
 
 
 	function __construct() {
@@ -61,7 +61,7 @@ class SupportGreatWriters extends WP_Widget {
   }
   // Get the next ASINs for display
   public function get_next_asin_set($count) {
-    $asins = [];
+    $asins = array();
     $diff = array_diff($this->asins,$this->seen);
     if (count($diff) >= $count) {
       for ($i = 0; $i < $count; $i++) {
