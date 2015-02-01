@@ -1,7 +1,7 @@
 LABEL.sgw_label {
     float: left;
     font-weight: bold;
-    width: 350px;
+    width: 250px;
     text-align: right;
     padding-right: 10px;
     clear:left;
@@ -43,4 +43,17 @@ CODE {
 }
 #sgw_error P {
     font-size: 16px;
+}
+a.sgw_button {
+	padding:4px;
+	display:block;
+	padding-left:35px;
+	background-repeat:no-repeat;
+	background-position:5px 50%;
+	text-decoration:none;
+	border:none;
+}
+
+a.sgw_button:hover {
+	border-bottom-width:1px;
 }
